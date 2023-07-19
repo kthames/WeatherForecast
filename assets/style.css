@@ -1,0 +1,11 @@
+.container {
+    padding: 20px;
+}
+.city-buttons {
+    list-style-type: none;
+}
+
+.main-card {
+    border: 1px solid black;
+}
+
