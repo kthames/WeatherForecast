@@ -1,6 +1,75 @@
 var searchFormEl = document.querySelector('#search-form');
 var searchFormBtn = document.querySelector('#form-button');
 
+var searchHistory = document.querySelector('#search-history')
+
+function handleSearchFormSubmit(event) {
+  event.preventDefault();
+
+  var newCity = document.querySelector('#search-input').value;
+
+  if (!newCity) {
+    console.error('You need a search input value!');
+    return;
+  }
+
+  var cities = readCitiesFromStorage();
+  cities.unshift(newCity);
+  saveCitiesToStorage(cities);
+
+  printWeatherData(newCity);
+  printSearchHistory(cities);
+}//gets city from user input
+
+
+searchHistory.addEventListener("click", function(event) {
+    event.preventDefault();
+    var element = event.target;
+
+    //check element 
+    //call print city function with new city
+    
+})
+
+
+function readCitiesFromStorage() {
+  var cities = localStorage.getItem('cities');
+  if (cities) {
+    cities = JSON.parse(cities);
+  } else {
+    cities = [];
+  }
+  console.log(cities);
+  return cities;
+}//reads cities from storage
+
+// Takes an array of projects and saves them in localStorage.
+function saveCitiesToStorage(cities) {
+  localStorage.setItem('cities', JSON.stringify(cities));
+}
+
+function printSearchHistory(cities) {
+  //check for duplicates
+  //print only the last eight 
+  //make them buttons with class that refers to the function for search history buttons
+
+  searchHistory.innerHTML = '';
+
+  cities = cities.splice(0, 8);
+  console.log(cities);
+
+  for(let i = 0; i < 7; i++) {
+    var buttonEl = document.createElement('button');
+    buttonEl.classList.add('btn', 'btn-primary');
+    buttonEl.setAttribute('type', 'button');
+    buttonEl.innerHTML = `${cities[i]}`;
+
+    searchHistory.append(buttonEl);
+  }
+
+
+}
+
 async function printWeatherData(city) {
 
   let currentDay = `https://api.openweathermap.org/data/2.5/weather?appid=${apiKey}&units=imperial&q=${city}`; 
@@ -65,20 +134,7 @@ async function printWeatherData(city) {
     weatherCard.append(dateEl,tempEl,windEl,humidityEl,weatherIcon);
   }
 
-}
-
-function handleSearchFormSubmit(event) {
-  event.preventDefault();
-
-  var city = document.querySelector('#search-input').value;
-
-  if (!city) {
-    console.error('You need a search input value!');
-    return;
-  }
-  
-  printWeatherData(city);
-}
+}//prints selected city's weather data to DOM
 
 searchFormEl.addEventListener('submit', handleSearchFormSubmit);
 
