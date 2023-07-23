@@ -29,7 +29,7 @@ searchHistory.addEventListener("click", function(event) {
     console.log(historyCity);
 
     printWeatherData(historyCity);
-})
+})//provides function for search history buttons
 
 
 function readCitiesFromStorage() {
@@ -43,10 +43,10 @@ function readCitiesFromStorage() {
   return cities;
 }//reads cities from storage
 
-// Takes an array of projects and saves them in localStorage.
+
 function saveCitiesToStorage(cities) {
   localStorage.setItem('cities', JSON.stringify(cities));
-}
+}// Takes an array of projects and saves them in localStorage.
 
 function printSearchHistory(cities) {
   //print so they are present at page load
@@ -63,7 +63,7 @@ function printSearchHistory(cities) {
 
     searchHistory.append(buttonEl);
   }
-}
+}//prints search history buttons to DOM
 
 async function printWeatherData(city) {
 
@@ -135,7 +135,7 @@ async function printWeatherData(city) {
 function init() {
   var cities = readCitiesFromStorage();
   printSearchHistory(cities);
-}
+}//prints search history buttons upon page load
 
 searchFormEl.addEventListener('submit', handleSearchFormSubmit);
 init();
