@@ -5,4 +5,4 @@
 
  ![Weather Forecast SS](./assets/images/WeatherForecastSS.jpg)
 
-[Weather Forecast](https://kthames.github.io/WorkDayScheduler/)
+[Weather Forecast](https://kthames.github.io/WeatherForecast/)
