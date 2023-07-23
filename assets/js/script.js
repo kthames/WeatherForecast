@@ -1,6 +1,8 @@
 var searchFormEl = document.querySelector('#search-form');
 var searchFormBtn = document.querySelector('#form-button');
-var searchHistory = document.querySelector('#search-history')
+var searchHistory = document.querySelector('#search-history');
+
+const apiKey = "d20763a7e8bd5d64bf991faa66ac0792";
 
 function handleSearchFormSubmit(event) {
   event.preventDefault();
