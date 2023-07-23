@@ -1,6 +1,5 @@
 var searchFormEl = document.querySelector('#search-form');
 var searchFormBtn = document.querySelector('#form-button');
-
 var searchHistory = document.querySelector('#search-history')
 
 function handleSearchFormSubmit(event) {
@@ -26,9 +25,10 @@ searchHistory.addEventListener("click", function(event) {
     event.preventDefault();
     var element = event.target;
 
-    //check element 
-    //call print city function with new city
-    
+    var historyCity = element.innerHTML;
+    console.log(historyCity);
+
+    printWeatherData(historyCity);
 })
 
 
@@ -49,16 +49,13 @@ function saveCitiesToStorage(cities) {
 }
 
 function printSearchHistory(cities) {
-  //check for duplicates
-  //print only the last eight 
-  //make them buttons with class that refers to the function for search history buttons
-
-  searchHistory.innerHTML = '';
+  //print so they are present at page load
+  searchHistory.innerHTML = ""
 
   cities = cities.splice(0, 8);
   console.log(cities);
 
-  for(let i = 0; i < 7; i++) {
+  for(let i = 0; i < cities.length; i++) {
     var buttonEl = document.createElement('button');
     buttonEl.classList.add('btn', 'btn-primary');
     buttonEl.setAttribute('type', 'button');
@@ -66,8 +63,6 @@ function printSearchHistory(cities) {
 
     searchHistory.append(buttonEl);
   }
-
-
 }
 
 async function printWeatherData(city) {
@@ -105,37 +100,42 @@ async function printWeatherData(city) {
     //for loop that skips through 8 index at a time for five days
   var fiveCards = document.querySelector('.five-cards');
 
-  for(let i = 0; i < 5; i++) {
+  for(let i = 7; i < 40 ; i += 8) {
     
     var weatherCard = document.createElement('div');
-    weatherCard.classList.add('col');
+    weatherCard.classList.add('col', 'fiveDayCard');
+    console.log(i);
 
     fiveCards.append(weatherCard);
 
     var dateEl = document.createElement('h4');
     dateEl.innerHTML =
-    `Date ${i}`;
+    `(${new Date((fiveDays.list[i].dt)*1000).toLocaleDateString()})`
 
     var tempEl = document.createElement('p');
     tempEl.innerHTML =
-    `temp`;
+    `Temp: ${fiveDays.list[i].main.temp} °F `;
 
     var windEl = document.createElement('p');
     windEl.innerHTML =
-    `wind`;
+    `Wind: ${fiveDays.list[i].wind.speed} MPH`;
 
     var humidityEl = document.createElement('p');
     humidityEl.innerHTML =
-    `humidity`;
+    `Humidity: ${fiveDays.list[i].main.humidity} %`;
 
     var weatherIcon = document.createElement('img');
-    weatherIcon.setAttribute("src", `https://openweathermap.org/img/w/${current.weather[0].icon}.png`);
+    weatherIcon.setAttribute("src", `https://openweathermap.org/img/w/${fiveDays.list[i].weather[0].icon}.png`);
 
     weatherCard.append(dateEl,tempEl,windEl,humidityEl,weatherIcon);
   }
 
 }//prints selected city's weather data to DOM
 
-searchFormEl.addEventListener('submit', handleSearchFormSubmit);
+function init() {
+  var cities = readCitiesFromStorage();
+  printSearchHistory(cities);
+}
 
-//function with button listener to search history items, loads for that city
+searchFormEl.addEventListener('submit', handleSearchFormSubmit);
+init();
